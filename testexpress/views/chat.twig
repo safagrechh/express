@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Alerte de Salaire</title>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <h1>Alerte de Salaire</h1>
+
+    <!-- Ajouter une zone pour afficher la liste des employés -->
+    <ul id="employee-list"></ul>
+
+    <script>
+        const socket = io.connect();
+
+        // Gérer l'événement d'alerte de salaire du serveur
+        socket.on('salaryAlert', (message) => {
+            alert(message); // Afficher l'alerte sur le client
+        });
+
+        // Fonction pour récupérer et afficher la liste des employés
+        function fetchEmployees() {
+            fetch('/ShowEmployees')
+                .then(response => response.json())
+                .then(data => {
+                    const employeeList = document.getElementById('employee-list');
+                    employeeList.innerHTML = ''; // Effacer la liste précédente des employés
+
+                    data.forEach(employee => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = `${employee.FullName} - ${employee.Salary} DT`;
+                        employeeList.appendChild(listItem);
+                    });
+                })
+                .catch(error => console.error('Error fetching employees:', error));
+        }
+
+        // Appeler la fonction pour récupérer et afficher la liste des employés
+        fetchEmployees();
+    </script>
+</body>
+</html>

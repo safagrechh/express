@@ -1,0 +1,17 @@
+doctype html
+html(lang="en")
+  head
+    title Alerte de Salaire
+    script(src="https://cdn.socket.io/socket.io-4.0.1.js")
+    script.
+      document.addEventListener('DOMContentLoaded', () => {
+        const socket = io(); // Créer une instance Socket.io
+
+        // Gérer l'événement d'alerte de salaire du serveur
+        socket.on('salaryAlert', (message) => {
+          // Afficher l'alerte dans une boîte de dialogue
+          alert(message);
+        });
+      });
+  body
+    h1 Alerte de Salaire
